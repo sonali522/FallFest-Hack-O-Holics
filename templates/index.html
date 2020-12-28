@@ -450,6 +450,7 @@ nav{
                   <p id="result">
                      <span> </span>
                     </p>  </div>
+                     <div id="report"  style="display:none;">
                     <div id="desc"  style="display:none;">
         <div class="container-fluid">
             <div class="row">
@@ -486,6 +487,7 @@ nav{
             </div>
         </div>
     </div>
+  </div>
                 </div>
                 <div class="col-3">
                   <p style="color: #F5F5F5">
@@ -604,12 +606,11 @@ nav{
             async: true,
             success: function (data) {
                 // Get and display the result
-                //$('.loader').hide();
-               // $('#result').fadeIn(600);
-               // $('#result').text(' Result:  ' + data);
+                $('.loader').hide();
+                $('#result').fadeIn(600);
+                $('#result').text(' Result:  ' + data);
                 console.log(data+"\n");
                 $('.report').show();
-                $('.heading').show();
                 console.log('Success!');
             },
         });
