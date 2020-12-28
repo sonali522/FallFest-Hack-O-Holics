@@ -11,7 +11,7 @@ import albumentations as aug
 from efficientnet_pytorch import EfficientNet
 
 # Flask utils
-from flask import Flask, redirect, url_for, request, render_template, jsonify
+from flask import Flask, redirect, url_for, request, render_template
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
 
@@ -31,9 +31,8 @@ def model_predict(file, model):
     image = np.transpose(image, (2, 0, 1)).astype(np.float32)
     image = torch.tensor([image], dtype=torch.float)
     preds = model(image)
-    probs  = preds.detach().numpy()[0]
-    probs = np.exp(probs)/np.sum(np.exp(probs))
-    return preds,probs
+    preds = np.argmax(preds.detach())
+    return preds
 
 @app.route('/')
 def home():
@@ -84,12 +83,9 @@ def upload():
     labs=['MELANOMA (MALIGNANT)', 'MELANOCYTIC NEVUS (BENIGN)/ NORMAL SKIN /RASH', 'BASAL CELL CARCINOMA (BENIGN)', 'ACTINIC KERATOSIS (BENIGN)', 'BENIGN KERATOSIS (BENIGN)', 'DERMATOFIBROMA (NON CANCEROUS-BENIGN)', 'VASCULAR LESION (MAYBE BENIGN MAYBE MALIGNANT)', 'SQUAMOUS CELL CARCINOMA(MALIGNANT)']
 
     # Make prediction
-    preds,probs = model_predict(f, model)
-    result = labs[preds]
-    prob_dict={}
-    for x in range(len(labs)):
-        prob_dict[labs[x]]=probs[x]
-    return prob_dict
+    preds = model_predict(f, model)
+    result = labs[preds]            
+    return result
 
 
 if __name__ == '__main__':
