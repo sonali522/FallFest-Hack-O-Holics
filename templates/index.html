@@ -418,7 +418,7 @@ nav{
             </div>
         </div>
         <div> 
-            <button type="button" class="btn btn-primary btn-lg " onclick="save()" id="btn-predict">Predict!</button>
+            <button type="button" class="btn btn-primary btn-lg " onclick="save()" value="skincaner" id="btn-predict">Predict!</button>
         </div>
     </div>
     </center>
@@ -594,11 +594,11 @@ nav{
         // Show loading animation
         $(this).hide();
         $('.loader').show();
-
+        var categ=$(this).val();
         // Make prediction by calling api /predict
         $.ajax({
             type: 'POST',
-            url: '/predict',
+            url:'/'+ categ + '/' + '/predict',
             data: form_data,
             contentType: false,
             cache: false,
