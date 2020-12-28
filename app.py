@@ -76,7 +76,7 @@ def profile():
     # image upload page
     return render_template('profile.html')
 
-@app.route('/predict', methods=['POST'])
+@app.route('/skincancer/predict', methods=['POST'])
 def upload():
     # Get the file from post request
     f = request.files['file']
